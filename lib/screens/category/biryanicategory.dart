@@ -1,6 +1,6 @@
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:rebeca_delight/constants/reusable.dart';
-import 'package:shared_preferences/shared_preferences.dart';
 
 import '../../constants/contstants.dart';
 import '../items_pages/item_screen.dart';
@@ -14,19 +14,17 @@ class categoryB extends StatefulWidget {
 }
 
 class _categoryBState extends State<categoryB> {
-  String name = 'aamir';
+
+  final firestore = FirebaseFirestore.instance.collection('Useras').snapshots();
+
   @override
   void initState() {
     // TODO: implement initState
     super.initState();
-    SP();
+
   }
 
-  SP() async {
-    SharedPreferences sp = await SharedPreferences.getInstance();
-    name = sp.getString('username') ?? 'Syed Taimoor Shah';
-    setState(() {});
-  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -65,8 +63,8 @@ class _categoryBState extends State<categoryB> {
                 ),
 
                 accountName: Text(
-                  name.toString(),
-                  style: txtstyll,
+                  'Taimoor',
+                  style: text3,
                 ),
                 accountEmail: null),
             ListTile(
@@ -76,7 +74,7 @@ class _categoryBState extends State<categoryB> {
               ),
               title: const Text(
                 'Profile',
-                style: sadaF,
+                style: textSimpleRobo,
               ),
               onTap: () {
                 Navigator.pushNamed(context, '/profile');
@@ -92,7 +90,7 @@ class _categoryBState extends State<categoryB> {
               ),
               title: Text(
                 'Orders',
-                style: sadaF,
+                style: textSimpleRobo,
               ),
             ),
             const Divider(
@@ -105,7 +103,7 @@ class _categoryBState extends State<categoryB> {
               ),
               title: Text(
                 'Addresses',
-                style: sadaF,
+                style: textSimpleRobo,
               ),
               onTap: () {
                 Navigator.push(context, MaterialPageRoute(builder: (context)=> SearchMap()));
@@ -121,7 +119,7 @@ class _categoryBState extends State<categoryB> {
               ),
               title: Text(
                 'Rewards',
-                style: sadaF,
+                style: textSimpleRobo,
               ),
             ),
             Divider(
@@ -134,16 +132,16 @@ class _categoryBState extends State<categoryB> {
               ),
               title: Text(
                 'Help Center',
-                style: sadaF,
+                style: textSimpleRobo,
               ),
             ),
             const Divider(
               color: appColor1,
             ),
             ListTile(
-              title: Text(
+              title: const Text(
                 'Settings',
-                style: sadaF,
+                style: textSimpleRobo,
               ),
               onTap: (){
                 //   Navigator.push(context, MaterialPageRoute(builder: (context)=> test()));
@@ -152,11 +150,10 @@ class _categoryBState extends State<categoryB> {
             ListTile(
               title: const Text(
                 'Log out',
-                style: sadaF,
+                style: textSimpleRobo,
               ),
               onTap: () async {
-                SharedPreferences sp = await SharedPreferences.getInstance();
-                sp.clear();
+
                 Navigator.pushReplacementNamed(context, '/signup');
               },
             ),
@@ -167,12 +164,12 @@ class _categoryBState extends State<categoryB> {
             children:  [
               InkWell(
                 onTap: (){
-                  Navigator.push(context, MaterialPageRoute(builder: (context)=> item_screen(image: 'images/biryani.png',
+                  Navigator.push(context, MaterialPageRoute(builder: (context)=> const item_screen(image: 'images/biryani.png',
                       text: 'Best burger in the town. Must try, Best burger in the town. Must try, Best burger in the town. Must try',
-                      name: 'Special Biryani', price: '500', time: '20 minutes')));
+                      name: 'Special Biryani', price: '500', time: '20 minutes', id: 1,)));
                 },
-                child: Category_Container(
-                    name: 'Special Biryani',
+                child: const Category_Container(
+                    name: 'Biryani',
                     ratingC: '(102)',
                     price: '550',
                     image: 'images/biryaniwide.png',
@@ -180,15 +177,32 @@ class _categoryBState extends State<categoryB> {
                     time: '30',
                     categ: ' Pakistani',
                     off: 'Flat 20 % off'),
+                // StreamBuilder<QuerySnapshot>(
+                //     stream: firestore,
+                //     builder: (BuildContext context, AsyncSnapshot<QuerySnapshot> snapshot){
+                //       if(snapshot.connectionState == ConnectionState.waiting){
+                //         return CircularProgressIndicator();
+                //       }
+                //       if(snapshot.hasError)
+                //         return Text('Error');
+                //       return Expanded(
+                //         child: ListView.builder(
+                //             itemCount: snapshot.data!.docs.length,
+                //             itemBuilder: (context, index){
+                //               return
+                //             }),
+                //       );
+                //     }),
+
               ),
 
               InkWell(
                 onTap: (){
-                  Navigator.push(context, MaterialPageRoute(builder: (context)=> item_screen(image: 'images/frid.png',
+                  Navigator.push(context, MaterialPageRoute(builder: (context)=> const item_screen(image: 'images/frid.png',
                       text: 'Best burger in the town. Must try, Best burger in the town. Must try, Best burger in the town. Must try',
-                      name: 'Sada Biryani', price: '300', time: '20 minutes')));
+                      name: 'Sada Biryani', price: '300', time: '20 minutes', id: 1,)));
                 },
-                child: Category_Container(
+                child: const Category_Container(
                     name: 'Sada Rice',
                     ratingC: '(122)',
                     price: '350',
@@ -201,11 +215,11 @@ class _categoryBState extends State<categoryB> {
 
               InkWell(
                 onTap: (){
-                  Navigator.push(context, MaterialPageRoute(builder: (context)=> item_screen(image: 'images/fried.png',
+                  Navigator.push(context, MaterialPageRoute(builder: (context)=> const item_screen(image: 'images/fried.png',
                       text: 'Best burger in the town. Must try, Best burger in the town. Must try, Best burger in the town. Must try',
-                      name: 'Bombai Biryani', price: '500', time: '20 minutes')));
+                      name: 'Bombai Biryani', price: '500', time: '20 minutes', id: 1,)));
                 },
-                child: Category_Container(
+                child: const Category_Container(
                     name: 'Bombai Buryani',
                     ratingC: '(100)',
                     price: '650',
@@ -221,3 +235,12 @@ class _categoryBState extends State<categoryB> {
         ));
   }
 }
+
+
+
+
+
+
+
+
+

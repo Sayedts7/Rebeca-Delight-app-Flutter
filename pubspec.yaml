@@ -43,6 +43,22 @@ dependencies:
   google_maps_flutter: ^2.2.1
   uuid: ^3.0.6
   http: ^0.13.5
+  badges: ^2.0.3
+  firebase_core: ^2.1.0
+  cloud_firestore: ^4.0.2
+  firebase_storage: ^11.0.2
+  firebase_auth: ^4.0.2
+  fluttertoast: ^8.1.1
+  email_validator: '^2.1.16'
+  intl_phone_field: ^3.1.0
+  pin_code_fields: ^7.4.0
+  firebase_database: ^10.0.3
+  google_sign_in: ^5.4.2
+  provider: ^6.0.5
+  path_provider: ^2.0.11
+  sqflite: ^2.2.3
+  flutter_facebook_auth: ^4.4.1+1
+
 
 dev_dependencies:
   flutter_test:
@@ -86,6 +102,14 @@ flutter:
     - family: DancingScript
       fonts:
       - asset: fonts/DancingScript-Bold.ttf
+
+    - family: Montserrat
+      fonts:
+      - asset: fonts/Montserrat-ExtraBoldItalic.ttf
+      - asset: fonts/Montserrat-ExtraLight.ttf
+      - asset: fonts/Montserrat-Regular.ttf
+
+
 
   #
   # For details regarding fonts from package dependencies,

@@ -1,7 +1,8 @@
+import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:rebeca_delight/constants/reusable.dart';
 import 'package:rebeca_delight/screens/items_pages/item_screen.dart';
-import 'package:shared_preferences/shared_preferences.dart';
 
 import '../../constants/contstants.dart';
 import '../maps/search_map.dart';
@@ -14,19 +15,19 @@ class category extends StatefulWidget {
 }
 
 class _categoryState extends State<category> {
-  String name = 'aamir';
+
+  final auth = FirebaseAuth.instance;
+
+
   @override
   void initState() {
     // TODO: implement initState
     super.initState();
-    SP();
-  }
 
-  SP() async {
-    SharedPreferences sp = await SharedPreferences.getInstance();
-    name = sp.getString('username') ?? 'Syed Taimoor Shah';
-    setState(() {});
   }
+  final firestore = FirebaseFirestore.instance.collection('Useras').snapshots();
+
+
 
   @override
   Widget build(BuildContext context) {
@@ -65,9 +66,9 @@ class _categoryState extends State<category> {
                   backgroundImage: AssetImage('images/dp.png'),
                 ),
 
-                accountName: Text(
-                  name.toString(),
-                  style: txtstyll,
+                accountName:Text(
+                  auth.currentUser!.email.toString(),
+                  style: text3,
                 ),
                 accountEmail: null),
             ListTile(
@@ -77,7 +78,7 @@ class _categoryState extends State<category> {
               ),
               title: const Text(
                 'Profile',
-                style: sadaF,
+                style: textSimpleRobo,
               ),
               onTap: () {
                 Navigator.pushNamed(context, '/profile');
@@ -93,7 +94,7 @@ class _categoryState extends State<category> {
               ),
               title: Text(
                 'Orders',
-                style: sadaF,
+                style: textSimpleRobo,
               ),
             ),
             const Divider(
@@ -106,7 +107,7 @@ class _categoryState extends State<category> {
               ),
               title: Text(
                 'Addresses',
-                style: sadaF,
+                style: textSimpleRobo,
               ),
               onTap: () {
                 Navigator.push(context, MaterialPageRoute(builder: (context)=> SearchMap()));
@@ -122,7 +123,7 @@ class _categoryState extends State<category> {
               ),
               title: Text(
                 'Rewards',
-                style: sadaF,
+                style: textSimpleRobo,
               ),
             ),
             Divider(
@@ -135,7 +136,7 @@ class _categoryState extends State<category> {
               ),
               title: Text(
                 'Help Center',
-                style: sadaF,
+                style: textSimpleRobo,
               ),
             ),
             const Divider(
@@ -144,7 +145,7 @@ class _categoryState extends State<category> {
             ListTile(
               title: Text(
                 'Settings',
-                style: sadaF,
+                style: textSimpleRobo,
               ),
               onTap: (){
                 //   Navigator.push(context, MaterialPageRoute(builder: (context)=> test()));
@@ -153,11 +154,10 @@ class _categoryState extends State<category> {
             ListTile(
               title: const Text(
                 'Log out',
-                style: sadaF,
+                style: textSimpleRobo,
               ),
               onTap: () async {
-                SharedPreferences sp = await SharedPreferences.getInstance();
-                sp.clear();
+
                 Navigator.pushReplacementNamed(context, '/signup');
               },
             ),
@@ -166,43 +166,60 @@ class _categoryState extends State<category> {
         body: SingleChildScrollView(
           child: Column(
             children: [
+              StreamBuilder<QuerySnapshot>(
+                  stream: firestore,
+                  builder: (BuildContext context, AsyncSnapshot<QuerySnapshot> snapshot){
+                    if(snapshot.connectionState == ConnectionState.waiting){
+                      return CircularProgressIndicator();
+                    }
+                    if(snapshot.hasError)
+                      return Text('Error');
+                    return SingleChildScrollView(
+                      child: ListView.builder(
+                        scrollDirection: Axis.vertical,
+                          shrinkWrap: true,
+                          itemCount: snapshot.data!.docs.length,
+                          itemBuilder: (context, index){
+                            return InkWell(
+                              onTap: () {
+                                Navigator.push(
+                                    context,
+                                    MaterialPageRoute(
+                                        builder: (context) =>  item_screen(
+                                            image: snapshot.data!.docs[1]['image'].toString(),
+                                            text: 'Best burger in the town. Must try, Best burger in the town. Must try, Best burger in the town. Must try',
+                                            name: snapshot.data!.docs[1]['name'].toString(),//snapshot.data!.docs[index]['Username'].toString() ?? '',
+                                            price: '400',
+                                            time: '30 minutes', id: 1,)));
+                              },
+                              child: const Category_Container(
+                                  name: 'Zinger Burger',
+                                  ratingC: '(102)',
+                                  price: '450',
+                                  image: 'images/burgerwide.png',
+                                  rating: '4.7',
+                                  time: '30',
+                                  categ: ' Fast food',
+                                  off: 'Flat 20 % off'),
+                            );
+                          }),
+                    );
+                  }),
+
               InkWell(
                 onTap: () {
                   Navigator.push(
                       context,
                       MaterialPageRoute(
-                          builder: (context) => item_screen(
-                              image: 'images/burger.png',
-                              text:
-                                  'Best burger in the town. Must try, Best burger in the town. Must try, Best burger in the town. Must try',
-                              name: 'Zinger Burger',
-                              price: '400',
-                              time: '30 minutes')));
-                },
-                child: const Category_Container(
-                    name: 'Zinger Burger',
-                    ratingC: '(102)',
-                    price: '450',
-                    image: 'images/burgerwide.png',
-                    rating: '4.7',
-                    time: '30',
-                    categ: ' Fast food',
-                    off: 'Flat 20 % off'),
-              ),
-              InkWell(
-                onTap: () {
-                  Navigator.push(
-                      context,
-                      MaterialPageRoute(
-                          builder: (context) => item_screen(
+                          builder: (context) => const item_screen(
                               image: 'images/burger.png',
                               text:
                                   'Best burger in the town. Must try, Best burger in the town. Must try, Best burger in the town. Must try',
                               name: 'Chapli Burger',
                               price: '350',
-                              time: '30 minutes')));
+                              time: '30 minutes', id: 1,)));
                 },
-                child: Category_Container(
+                child: const Category_Container(
                     name: 'Chapli Burger',
                     ratingC: '(122)',
                     price: '350',
@@ -216,9 +233,9 @@ class _categoryState extends State<category> {
                 onTap: (){
                   Navigator.push(context, MaterialPageRoute(builder: (context)=> item_screen(image: 'images/burger.png',
                       text: 'Best burger in the town. Must try, Best burger in the town. Must try, Best burger in the town. Must try',
-                      name: 'Zinger Burger', price: '400', time: '30 minutes')));
+                      name: 'Zinger Burger', price: '400', time: '30 minutes', id: 1,)));
                 },
-                child: Category_Container(
+                child: const Category_Container(
                     name: 'Huge Burger',
                     ratingC: '(100)',
                     price: '650',

@@ -1,7 +1,7 @@
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:rebeca_delight/constants/contstants.dart';
 import 'package:rebeca_delight/constants/reusable.dart';
-import 'package:shared_preferences/shared_preferences.dart';
 
 class Profile extends StatefulWidget {
 
@@ -12,19 +12,15 @@ class Profile extends StatefulWidget {
 }
 
 class _ProfileState extends State<Profile> {
-  String name = 'aamir';
   @override
+
+  final firestore = FirebaseFirestore.instance.collection('Users').snapshots();
   void initState() {
     // TODO: implement initState
     super.initState();
-    SP();
   }
 
-  SP() async {
-    SharedPreferences sp = await SharedPreferences.getInstance();
-    name = sp.getString('username') ?? 'Syed Taimoor Shah';
-    setState(() {});
-  }
+
 
   @override
   Widget build(BuildContext context) {
@@ -37,7 +33,7 @@ class _ProfileState extends State<Profile> {
       ),
     ),
     ),
-        title: Text('Profile',style: txtstyll,),),
+        title: Text('Profile',style: text3,),),
       body: SafeArea(
         child: Padding( 
           padding: const EdgeInsets.only(left: 15.0,right: 15,top: 30),
@@ -72,11 +68,24 @@ class _ProfileState extends State<Profile> {
                           Column(
                             mainAxisAlignment: MainAxisAlignment.start,
                             crossAxisAlignment: CrossAxisAlignment.start,
-                            children: [
-                              Text(name, style: sadaFB,),
+                            children: const [
+
+                              // StreamBuilder<QuerySnapshot>(
+                              //   stream:firestore ,
+                              //     builder: (BuildContext context,AsyncSnapshot<QuerySnapshot> snapshot){
+                              //     if(snapshot.connectionState == ConnectionState.waiting){
+                              //       return CircularProgressIndicator();
+                              //     }
+                              //     if(snapshot.hasError){
+                              //       return Text('Error');
+                              //     }
+                              //     return snapshot.
+                              //
+                              //     }),
+                              Text('Taimoor', style: text1Robo,),
                               Padding(
-                                padding: const EdgeInsets.only(top: 5.0),
-                                child: Text('Sayedts00777@gmail.com', style: sadaF,),
+                                padding: EdgeInsets.only(top: 5.0),
+                                child: Text('Sayedts00777@gmail.com', style: textSimpleRobo,),
                               )
                             ],
                           )
@@ -105,11 +114,11 @@ class _ProfileState extends State<Profile> {
                           SizedBox(
                             width: 20,
                           ),
-                          Text('Gold Member', style: sadaFB,),
+                          Text('Gold Member', style: text1Robo,),
                           SizedBox(
                             width: 90,
                           ),
-                          Text('Upgrade',style: sadaFB,)
+                          Text('Upgrade',style: text1Robo,)
                         ],
                       ),
                     )
@@ -122,7 +131,7 @@ class _ProfileState extends State<Profile> {
               ),
               Container(
                 width: double.infinity,
-                height: MediaQuery.of(context).size.height* 0.14,
+                height: MediaQuery.of(context).size.height* 0.15,
                 decoration: BoxDecoration(
                     color: Colors.black,
                     borderRadius: BorderRadius.circular(10),
@@ -138,11 +147,11 @@ class _ProfileState extends State<Profile> {
                     children: [
                       Row(
                         children: [
-                          Text('Account Balance', style: sadaFB,),
+                          Text('Account Balance', style: text1Robo,),
                           SizedBox(
                             width: 140,
                           ),
-                          Text('\$ 50.00', style: sadaFB,),
+                          Text('\$ 50.00', style: text1Robo,),
                         ],
                       ),
                       SizedBox(
@@ -153,11 +162,11 @@ class _ProfileState extends State<Profile> {
                           Column(
                             crossAxisAlignment: CrossAxisAlignment.start,
                             mainAxisAlignment: MainAxisAlignment.start,
-                            children: [ Text('Refer Friend',style: sadaFB,),
+                            children: [ Text('Refer Friend',style: text1Robo,),
                               SizedBox(
                                 height: 5,
                               ),
-                              Text('Earn \$100',style: sadaFB,),],
+                              Text('Earn \$100',style: text1Robo,),],
                           ),
                           SizedBox(
                             width: MediaQuery.of(context).size.width * 0.48,
@@ -193,7 +202,7 @@ class _ProfileState extends State<Profile> {
                         children: [
                           GradientIcon(Icons.wallet, 20, LinearGradient(colors: [appColor1,appColor2])),
                           SizedBox(width: 10,),
-                          Text('Add money to wallet', style: sadaFB,),
+                          Text('Add money to wallet', style: text1Robo,),
                           SizedBox(
                             width: MediaQuery.of(context).size.width * 0.258
                           ),
@@ -205,7 +214,7 @@ class _ProfileState extends State<Profile> {
                         children: [
                           GradientIcon(Icons.credit_card, 20, LinearGradient(colors: [appColor1,appColor2])),
                           SizedBox(width: 10,),
-                          Text('Payment settings', style: sadaFB,),
+                          Text('Payment settings', style: text1Robo,),
                           SizedBox(
                               width: MediaQuery.of(context).size.width * 0.305
                           ),
@@ -218,7 +227,7 @@ class _ProfileState extends State<Profile> {
                         children: [
                           GradientIcon(Icons.security, 20, LinearGradient(colors: [appColor1,appColor2])),
                           SizedBox(width: 10,),
-                          Text('Terms', style: sadaFB,),
+                          Text('Terms', style: text1Robo,),
                           SizedBox(
                               width: MediaQuery.of(context).size.width * 0.48
                           ),
@@ -237,7 +246,7 @@ class _ProfileState extends State<Profile> {
                         children: [
                           Icon(Icons.facebook, color: Colors.blue.shade500,),
                           SizedBox(width: 10,),
-                          Text('Facebook', style: sadaFB,),
+                          Text('Facebook', style: text1Robo,),
                           SizedBox(
                             width: 150,
                           ),
@@ -250,11 +259,11 @@ class _ProfileState extends State<Profile> {
                         children: [
                           Icon(Icons.language, color: Colors.blue.shade500,),
                           SizedBox(width: 10,),
-                          Text('Google', style: sadaFB,),
+                          Text('Google', style: text1Robo,),
                           SizedBox(
                             width: 150,
                           ),
-                          Text('Connect', style: sadaFB,),
+                          Text('Connect', style: text1Robo,),
                         ],
                       ),
 

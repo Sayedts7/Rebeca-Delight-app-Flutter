@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
 import 'package:rebeca_delight/constants/reusable.dart';
-import 'package:shared_preferences/shared_preferences.dart';
 
 import '../../constants/contstants.dart';
 import '../items_pages/item_screen.dart';
@@ -14,19 +13,13 @@ class Pizaa_category extends StatefulWidget {
 }
 
 class _Pizaa_categoryState extends State<Pizaa_category> {
-  String name = 'aamir';
   @override
   void initState() {
     // TODO: implement initState
     super.initState();
-    SP();
   }
 
-  SP() async {
-    SharedPreferences sp = await SharedPreferences.getInstance();
-    name = sp.getString('username') ?? 'Syed Taimoor Shah';
-    setState(() {});
-  }
+
 
 
   Widget build(BuildContext context) {
@@ -66,8 +59,7 @@ class _Pizaa_categoryState extends State<Pizaa_category> {
                 ),
 
                 accountName: Text(
-                  name.toString(),
-                  style: txtstyll,
+                  'Taimoor',                  style: text3,
                 ),
                 accountEmail: null),
             ListTile(
@@ -77,7 +69,7 @@ class _Pizaa_categoryState extends State<Pizaa_category> {
               ),
               title: const Text(
                 'Profile',
-                style: sadaF,
+                style: textSimpleRobo,
               ),
               onTap: () {
                 Navigator.pushNamed(context, '/profile');
@@ -93,7 +85,7 @@ class _Pizaa_categoryState extends State<Pizaa_category> {
               ),
               title: Text(
                 'Orders',
-                style: sadaF,
+                style: textSimpleRobo,
               ),
             ),
             const Divider(
@@ -106,7 +98,7 @@ class _Pizaa_categoryState extends State<Pizaa_category> {
               ),
               title: Text(
                 'Addresses',
-                style: sadaF,
+                style: textSimpleRobo,
               ),
               onTap: () {
                 Navigator.push(context, MaterialPageRoute(builder: (context)=> SearchMap()));
@@ -122,7 +114,7 @@ class _Pizaa_categoryState extends State<Pizaa_category> {
               ),
               title: Text(
                 'Rewards',
-                style: sadaF,
+                style: textSimpleRobo,
               ),
             ),
             Divider(
@@ -135,7 +127,7 @@ class _Pizaa_categoryState extends State<Pizaa_category> {
               ),
               title: Text(
                 'Help Center',
-                style: sadaF,
+                style: textSimpleRobo,
               ),
             ),
             const Divider(
@@ -144,7 +136,7 @@ class _Pizaa_categoryState extends State<Pizaa_category> {
             ListTile(
               title: Text(
                 'Settings',
-                style: sadaF,
+                style: textSimpleRobo,
               ),
               onTap: (){
                 //   Navigator.push(context, MaterialPageRoute(builder: (context)=> test()));
@@ -153,11 +145,10 @@ class _Pizaa_categoryState extends State<Pizaa_category> {
             ListTile(
               title: const Text(
                 'Log out',
-                style: sadaF,
+                style: textSimpleRobo,
               ),
               onTap: () async {
-                SharedPreferences sp = await SharedPreferences.getInstance();
-                sp.clear();
+
                 Navigator.pushReplacementNamed(context, '/signup');
               },
             ),
@@ -169,11 +160,11 @@ class _Pizaa_categoryState extends State<Pizaa_category> {
             children:  [
               InkWell(
                 onTap: (){
-                  Navigator.push(context, MaterialPageRoute(builder: (context)=> item_screen(image: 'images/pizza.png',
+                  Navigator.push(context, MaterialPageRoute(builder: (context)=> const item_screen(image: 'images/pizza.png',
                       text: 'Best burger in the town. Must try, Best burger in the town. Must try, Best burger in the town. Must try',
-                      name: 'Chicken Pizza', price: '599', time: '40 minutes')));
+                      name: 'Chicken Pizza', price: '599', time: '40 minutes', id: 1,)));
                 },
-                child: Category_Container(
+                child: const Category_Container(
                     name: 'Chicken Pizza',
                     ratingC: '(102)',
                     price: '550',
@@ -186,9 +177,9 @@ class _Pizaa_categoryState extends State<Pizaa_category> {
 
               InkWell(
                 onTap: (){
-                  Navigator.push(context, MaterialPageRoute(builder: (context)=> item_screen(image: 'images/Pizza2.png',
+                  Navigator.push(context, MaterialPageRoute(builder: (context)=> const item_screen(image: 'images/Pizza2.png',
                       text: 'Best burger in the town. Must try, Best burger in the town. Must try, Best burger in the town. Must try',
-                      name: 'BBQ Pizza', price: '599', time: '40 minutes')));
+                      name: 'BBQ Pizza', price: '599', time: '40 minutes', id: 1,)));
                 },
                 child: const Category_Container(
                     name: 'BBQ Pizza',
@@ -203,9 +194,9 @@ class _Pizaa_categoryState extends State<Pizaa_category> {
 
               InkWell(
                 onTap: (){
-                  Navigator.push(context, MaterialPageRoute(builder: (context)=> item_screen(image: 'images/Pizza2.png',
+                  Navigator.push(context, MaterialPageRoute(builder: (context)=> const item_screen(image: 'images/Pizza2.png',
                       text: 'Best burger in the town. Must try, Best burger in the town. Must try, Best burger in the town. Must try',
-                      name: 'BBQ Pizza', price: '599', time: '40 minutes')));
+                      name: 'BBQ Pizza', price: '599', time: '40 minutes', id: 1,)));
                 },
                 child: Category_Container(
                     name: 'Fajita Pizza',

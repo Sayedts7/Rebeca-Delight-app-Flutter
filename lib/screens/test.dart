@@ -1,53 +1,48 @@
-// import 'dart:ui';
-//
 // import 'package:flutter/material.dart';
-// import 'package:flutter_geocoder/geocoder.dart';
+// import 'package:intl_phone_field/intl_phone_field.dart';
+// import 'package:rebeca_delight/constants/reusable.dart';
 //
-// import 'package:rebeca_delight/screens/location.dart';
-//
-// class test extends StatefulWidget {
-//   const test({Key? key}) : super(key: key);
+// class Test extends StatefulWidget {
+//   const Test({Key? key}) : super(key: key);
 //
 //   @override
-//   State<test> createState() => _testState();
+//   State<Test> createState() => _TestState();
 // }
 //
-// class _testState extends State<test> {
-//   String stAddress = '';
-//
+// class _TestState extends State<Test> {
+//   var code;
+//   TextEditingController phonenumbercontroler = TextEditingController();
 //   @override
 //   Widget build(BuildContext context) {
 //     return Scaffold(
-//         body: Column(
-//           crossAxisAlignment: CrossAxisAlignment.center,
-//           mainAxisAlignment: MainAxisAlignment.center,
+//       body: SafeArea(
+//         child: Column(
 //           children: [
-//             Container(
-//                 width:200,
-//                 height: 200,
-//                 color: Colors.pink,
-//                 child: Text(stAddress)),
-//              GestureDetector(
-//                 onTap: () async {
+//             IntlPhoneField(
+//               controller: phonenumbercontroler,
+//               decoration: const InputDecoration(
+//                 labelText: 'Phone Number',
+//                 border: OutlineInputBorder(
+//                   borderSide: BorderSide(),
+//                 ),
+//               ),
+//               initialCountryCode: 'IN',
+//               onChanged: (phone) {
+//                 print(phonenumbercontroler.text);
+//                 print(phone.countryCode);
+//                 code = phone.countryCode;
+//               },
+//             ),
+//             ButtonRound(text: 'Click', ontap: (){
+//               // print(phonenumbercontroler.text.toString());
+//               print(code+phonenumbercontroler.text);
+//               setState(() {
 //
-//                  final coordinates = new Coordinates(34.239677, 71.957515);
-//                   var address = await Geocoder.local.findAddressesFromCoordinates(coordinates);
-//                  var first = address.first;
-//                  print(first.featureName.toString()+' '+first.adminArea.toString());
-//                  setState(() {
-//                    stAddress = first.featureName.toString()+' '+first.locality.toString();
-//                  });
-//                  },
-//                 child: Container(
-//                     width: 200,
-//                     height: 50,
-//                     color: Colors.blue,
-//                     child: Center(child: Text('COnvert'))))
-//
-//
+//               });
+//             })
 //           ],
-//         )
-//
+//         ),
+//       ),
 //     );
 //   }
 // }

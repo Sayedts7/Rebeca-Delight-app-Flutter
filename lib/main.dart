@@ -1,8 +1,14 @@
-import 'dart:async';
 
+import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
+import 'package:provider/provider.dart';
+import 'package:rebeca_delight/provider/cart_provider.dart';
+import 'package:rebeca_delight/provider/login_provider.dart';
+import 'package:rebeca_delight/provider/signuo_provider.dart';
+import 'package:rebeca_delight/screens/Splash_screen.dart';
+import 'package:rebeca_delight/screens/auth/loginwithphone.dart';
 import 'package:rebeca_delight/screens/category/biryanicategory.dart';
 import 'package:rebeca_delight/screens/category/burger_categoires.dart';
 import 'package:rebeca_delight/screens/category/donut_category.dart';
@@ -11,14 +17,14 @@ import 'package:rebeca_delight/screens/category/pizza_category.dart';
 
 import 'package:rebeca_delight/screens/home_screen.dart';
 import 'package:rebeca_delight/screens/items_pages/item_screen.dart';
-import 'package:rebeca_delight/screens/maps/location.dart';
 import 'package:rebeca_delight/screens/maps/search_map.dart';
 import 'package:rebeca_delight/screens/profile.dart';
-import 'package:rebeca_delight/signup.dart';
-import 'package:shared_preferences/shared_preferences.dart';
+import 'package:rebeca_delight/screens/auth/signup.dart';
 
-import 'login.dart';
-void main() {
+import 'screens/auth/login.dart';
+void main() async {
+  WidgetsFlutterBinding.ensureInitialized();
+  await Firebase.initializeApp();
   runApp(const MyApp());
 }
 
@@ -31,79 +37,49 @@ class MyApp extends StatelessWidget {
      // statusBarColor: Colors.transparent,
    //   statusBarIconBrightness: Brightness.dark,
     //));
-    return MaterialApp(
+    return MultiProvider(
+        providers: [
+        ChangeNotifierProvider(create: (_) => CartProvider(),),
 
-      debugShowCheckedModeBanner: false,
-      theme: ThemeData(
-        brightness:Brightness.dark,
+        ChangeNotifierProvider( create: (_) => loadingProvider(),),
 
-        fontFamily: 'DancingScript'
-      ),
-      initialRoute: '/',
-      routes: {
-        '/' : (context)=> Splash(),
-        '/login': (context)=> Login(),
-        '/signup': (context)=> Signup(),
-        '/home' : (context)=> Home_Screen(),
-       // '/location': (context)=> location(lat: '', lang: "",),
-        '/cBurgers': (context)=> category(),
-        '/cBiryani': (context)=> categoryB(),
-        '/cPizza': (context)=> Pizaa_category(),
-        '/cDonut': (context)=> Category_donut(),
-        '/items': (context)=> item_screen(image: '', text: '', name: '', price: '', time: ''),
-        '/profile' :(context)=> Profile(),
-        '/Searchmap' : (context)=> SearchMap(),
-      },
+          ChangeNotifierProvider( create: (_) => SignupProvider(),),
 
-    );
-  }
-}
-
-class Splash extends StatefulWidget {
-  const Splash({Key? key}) : super(key: key);
-
-  @override
-  State<Splash> createState() => _SplashState();
-}
-
-class _SplashState extends State<Splash> {
-  @override
-  void initState() {
-    // TODO: implement initState
-    super.initState();
-    isLogin();
-  }
-
-  isLogin()async{
-    SharedPreferences sp = await SharedPreferences.getInstance();
-    bool isLogin = sp.getBool('isLogin') ?? false;
-
-
-    if( isLogin)
-      {
-        Timer(Duration(seconds: 3), () {
-          Navigator.pushReplacementNamed(context, '/home');
-        });
-      }
-    else{
-      Timer(Duration(seconds: 3), () {
-        Navigator.pushReplacementNamed(context, '/signup');
-      });
-    }
-  }
-  @override
-  Widget build(BuildContext context) {
-    return Scaffold(
-      backgroundColor: Color(0xff241e20),
-      body: Column(
-        crossAxisAlignment: CrossAxisAlignment.center,
-        mainAxisAlignment: MainAxisAlignment.center,
-        children: const [
-           Center(child: Image(image: AssetImage('images/logo2.png'),)),
-          SizedBox(height: 30),
-          Text("Rebeca's Delight", style: TextStyle(color:Colors.white, fontFamily: 'DancingScript', fontWeight: FontWeight.bold, fontSize: 40),)
         ],
-      ),
-    );
+    child: Builder(builder: (BuildContext context) {
+      return MaterialApp(
+
+        debugShowCheckedModeBanner: false,
+        theme: ThemeData(
+            brightness: Brightness.dark,
+          fontFamily: 'Montserrat-ExtraBoldItalic|',
+
+
+        ),
+        initialRoute: '/',
+        routes: {
+          '/': (context) => const Splash(),
+          '/login': (context) => const login(),
+          '/loginwithphone': (context) => const LoginWithPhone(),
+          //'/verifycode': (context)=> const VerifyCodeScreen(),
+          '/signup': (context) => const Signup(),
+          '/home': (context) => const Home_Screen(),
+          // '/location': (context)=> location(lat: '', lang: "",),
+          '/cBurgers': (context) => const category(),
+          '/cBiryani': (context) => const categoryB(),
+          '/cPizza': (context) => const Pizaa_category(),
+          '/cDonut': (context) => const Category_donut(),
+          '/items': (context) => const item_screen(image: '',
+              text: '',
+              name: '',
+              price: '',
+              time: '', id: 1,),
+          '/profile': (context) => Profile(),
+          '/Searchmap': (context) => SearchMap(),
+        },
+      );
+    }
+    ), );
   }
 }
+

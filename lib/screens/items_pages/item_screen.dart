@@ -1,19 +1,33 @@
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
+import 'package:rebeca_delight/cartModel/cart_model.dart';
+import 'package:rebeca_delight/cartModel/db_helper.dart';
 import 'package:rebeca_delight/constants/contstants.dart';
 import 'package:rebeca_delight/constants/reusable.dart';
+import 'package:rebeca_delight/screens/items_pages/cart.dart';
+
+import '../../provider/cart_provider.dart';
+import '../../utils/utils.dart';
 
 class item_screen extends StatefulWidget {
   final String image, name, price,text, time;
-  const item_screen({Key? key, required this.image, required this.text, required this.name, required this.price, required this.time}) : super(key: key);
+     final int id;
+  const item_screen({Key? key, required this.image,required this.id, required this.text, required this.name, required this.price, required this.time}) : super(key: key);
 
   @override
   State<item_screen> createState() => _item_screenState();
 }
 
 class _item_screenState extends State<item_screen> {
-   int count =0;
+  DBHelper dbHelper = DBHelper();
+  final firestore = FirebaseFirestore.instance.collection('Useras').snapshots();
+
+  int count =0;
   @override
   Widget build(BuildContext context) {
+    final cart = Provider.of<CartProvider>(context);
+
     return Scaffold(body: Column(
       children: [
         Stack(
@@ -39,7 +53,7 @@ class _item_screenState extends State<item_screen> {
           ),
           Image(
               height: 200,
-              image: AssetImage(widget.image))],
+              image: NetworkImage(widget.image))],
         ),
         Padding(
           padding: const EdgeInsets.all(15.0),
@@ -76,16 +90,17 @@ class _item_screenState extends State<item_screen> {
 
                   child: Align(
                       alignment: Alignment.centerRight,
-                      child: Text('Rs. ' +widget.price, style: txtstyll,)))
+                      child: Text('Rs. ' +widget.price, style: text3,)))
             ],
           ),
         ),
-        
+
+
          Padding(
            padding: const EdgeInsets.all(15.0),
            child: Row(
             children: [
-              Text(widget.name , style: txtstyllb,),
+              Text(widget.name , style: text5,),
 
             ],
         ),
@@ -94,7 +109,7 @@ class _item_screenState extends State<item_screen> {
           padding: const EdgeInsets.all(15.0),
           child: Row(
             children: [
-              Flexible(child: Text(widget.text , style: txtstyllc,))
+              Flexible(child: Text(widget.text , style: text2,))
 
             ],
           ),
@@ -111,9 +126,9 @@ class _item_screenState extends State<item_screen> {
           padding: const EdgeInsets.all(15.0),
           child: Row(
             children: [
-              Text('Delivery Time', style: txtstyll,),
+              Text('Delivery Time', style: text3,),
               Expanded(child: Align(alignment: Alignment.centerRight,
-              child: Text(widget.time, style: txtstyll,),)
+              child: Text(widget.time + " Minuts", style: text3,),)
               )
             ],
           ),
@@ -122,71 +137,40 @@ class _item_screenState extends State<item_screen> {
         Padding(
           padding: const EdgeInsets.all(15.0),
           child: InkWell(
-            onTap: ()=> showDialog(
-                context: context,
-                builder: (BuildContext context) => AlertDialog(
-                  title: Text('Add to cart'),
-                  content: SingleChildScrollView(
-                      child: Row(
-                        mainAxisAlignment: MainAxisAlignment.center,
-                          children: [
-                            InkWell(
-                              onTap: () {
 
-                                setState(() {
+            onTap: () {
 
-                                });
-                              },
-                              child: GradientIcon(Icons.remove, 30, LinearGradient(
-                                colors: [appColor1,appColor2]
-                              )),
-                            ),
+             dbHelper!.insert(
+                 Cart(id: widget.id,
+                     productId: widget.id.toString(),
+                     productName: widget.name,
+                     initialPrice: int.parse(widget.price),
+                     productPrice: int.parse(widget.price),
+                     quantity: 1,
 
+                     time: int.parse(widget.time),
+                     image: widget.image)).then((value) {
+               Utils().toastMessage('Added to cart');
+               cart.addTotalPrice(double.parse(widget.price));
+               cart.addCounter();
+             }).onError((error, stackTrace) {
+               Utils().toastMessage('Product is already in Cart');
+               print(error.toString());
+             });
 
-                            Container(
-                                height: 40,
-                                width: 50,
-                                decoration: BoxDecoration(
-                                  gradient: LinearGradient(colors: [appColor1,appColor2]),
-                                  borderRadius: BorderRadius.circular(10)
-                                ),
-                                child: Center(child: Text(count.toString(), style: txtstyllb,))),
-
-
-                            InkWell(
-                              onTap: (){
-
-                                setState(() {
-                                  count++;
-                                });
-                              },
-
-                              child: GradientIcon(Icons.add, 30, LinearGradient(
-                                  colors: [appColor1,appColor2]
-                              )),
-                            )
-
-                          ],
-                      )),
-                  actions: [
-                    TextButton(
-                        onPressed: () {
-                          Navigator.pop(context);
-                        },
-                        child: Text('OK'))
-                  ],
-                )),
-            child: Container(
-              width: double.infinity,
-              height: 50,
-              decoration: BoxDecoration(
-                gradient: LinearGradient(colors: [appColor1,appColor2]),
-                borderRadius: BorderRadius.circular(10)
+            },
+              child: Container(
+                width: double.infinity,
+                height: 50,
+                decoration: BoxDecoration(
+                  gradient: LinearGradient(colors: [appColor1,appColor2]),
+                  borderRadius: BorderRadius.circular(10)
+                ),
+                child:  Center(child: Text('Add to cart', style: text5,)),
               ),
-              child:  Center(child: Text('Add to cart', style: txtstyllb,)),
             ),
           ),
-        )
+
 
       ],
     ),);

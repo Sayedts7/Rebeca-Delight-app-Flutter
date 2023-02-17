@@ -49,7 +49,7 @@ class Reusable_Con1 extends StatelessWidget {
                               color: Colors.black45,
                               child: Center(
                                 child: Text(
-                                  heading, style: txtstyllb,
+                                  heading, style: text5,
                                 ),
                               ),
                             ),
@@ -69,6 +69,7 @@ class Reusable_Con1 extends StatelessWidget {
 
 class LargeContainer extends StatelessWidget {
   final String image, name, english, genre, price, rating;
+
   const LargeContainer(
       {Key? key,
       required this.image,
@@ -76,7 +77,8 @@ class LargeContainer extends StatelessWidget {
       required this.english,
       required this.genre,
       required this.price,
-      required this.rating})
+      required this.rating,
+      })
       : super(key: key);
 
   @override
@@ -103,40 +105,48 @@ class LargeContainer extends StatelessWidget {
               Padding(
                 padding: const EdgeInsets.only(left: 15.0, right: 15, bottom: 15,top: 60),
                 child:
-                Column(crossAxisAlignment: CrossAxisAlignment.start, children: [
+                Column(crossAxisAlignment: CrossAxisAlignment.start,
+                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                    children: [
 
                   Text(
                     name,
-                    style: baratext,
+                    style: text4,
                   ),
                   Padding(
                     padding: const EdgeInsets.symmetric(vertical: 12.0),
                     child: Row(
                       children: [
-                        Text('\$\$ ', style: txtstyllc,),
+                        int.parse(price) >= 500 ?
+                        Text('\$\$ ', style: text2,):
+                        Text('\$ ', style: text2,),
+
                         Icon(
                           Icons.fiber_manual_record,
                           size: 5,
                         ),
-                        Text(genre, style: txtstyllc,)
+                        Text(genre, style: text2,)
                       ],
                     ),
                   ),
                   Flexible(
                       child: Text(
-                          english, style: txtstyllc,)),
+                          english, style: text2,)),
                   Padding(
                     padding: const EdgeInsets.only(top: 20.0),
                     child: Row(
+                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
                       children: [
-                        Text(price),
-                        GradientIcon(
-                            Icons.star,
-                            20,
-                            LinearGradient(
-                              colors: [appColor1, appColor2],
-                            )),
-                        Text(rating)
+                        Text('Rs ' + price),
+                       Row(
+                         children: [ GradientIcon(
+                             Icons.star,
+                             20,
+                             LinearGradient(
+                               colors: [appColor1, appColor2],
+                             )),
+                           Text(rating)],
+                       )
                       ],
                     ),
                   )
@@ -147,7 +157,7 @@ class LargeContainer extends StatelessWidget {
 
                   child: CircleAvatar(
                     radius: 50,
-                    backgroundImage: AssetImage(image),
+                    backgroundImage: NetworkImage(image),
                   ),
               )
             ],
@@ -163,12 +173,15 @@ class LargeContainer extends StatelessWidget {
 class wideContainer extends StatelessWidget {
   final String image, name, english, price, rating;
   IconData icon, icon2, icon3;
-   wideContainer(
+  final VoidCallback ontap;
+
+  wideContainer(
       {Key? key,
         required this.image,
         required this.name,
         required this.english,
         required this.price,
+        required this.ontap,
         required this.rating, required this.icon,required this.icon3, required this.icon2})
       : super(key: key);
 
@@ -202,52 +215,58 @@ class wideContainer extends StatelessWidget {
                     padding: const EdgeInsets.only(bottom: 10.0),
                     child: Text(
                       name,
-                      style: baratext,
+                      style: text4,
                     ),
                   ),
 
                    Container(
                      child: Flexible(
                         child: Container(
+                          height: 60,
                           child: Text(
-                            english, style: TextStyle(fontSize: 18),),
+                            english,overflow: TextOverflow.fade, style: text2,),
                         )),
                    ),
                   Padding(
                     padding: const EdgeInsets.only(top: 10.0, bottom: 5),
                     child: Row(
                       children: [
-                       GradientIcon(icon, 25, LinearGradient(
+                       GradientIcon(icon, 25, const LinearGradient(
                          colors: [appColor1,appColor2]
                        )),
-                        GradientIcon(icon, 25, LinearGradient(
+                        GradientIcon(icon, 25, const LinearGradient(
                             colors: [appColor1,appColor2]
                         )),
-                        GradientIcon(icon, 25, LinearGradient(
+                        GradientIcon(icon, 25, const LinearGradient(
                             colors: [appColor1,appColor2]
                         )),
-                        GradientIcon(icon2, 25, LinearGradient(
+                        GradientIcon(icon2, 25, const LinearGradient(
                             colors: [appColor1,appColor2]
                         )),
-                        GradientIcon(icon3, 25, LinearGradient(
+                        GradientIcon(icon3, 25, const LinearGradient(
                             colors: [appColor1,appColor2]
                         )),
                       ],
                     ),
-                  ),
+                  ) ,
+
                    Row(
+                     mainAxisAlignment: MainAxisAlignment.spaceBetween,
                      children: [
                        Padding(
                          padding: const EdgeInsets.only(right: 40),
                          child: Text(
-                           price,
-                           style: txtstyllc,
+                           'Rs.'+price,
+                           style: text2,
                          ),
                        ),
 
-                       GradientIcon(Icons.shopping_cart, 25, LinearGradient(
-                           colors: [appColor1,appColor2]
-                       ))
+                       InkWell(
+                         onTap: ontap,
+                         child: GradientIcon(Icons.shopping_cart, 35, LinearGradient(
+                             colors: [appColor1,appColor2],
+                         )),
+                       )
 
                      ],
                    )
@@ -258,7 +277,7 @@ class wideContainer extends StatelessWidget {
 
                 child: CircleAvatar(
                   radius: 60,
-                  backgroundImage:    AssetImage(image),
+                  backgroundImage:    NetworkImage(image),
                 )
               )
             ],
@@ -314,7 +333,7 @@ borderRadius: BorderRadius.circular(10)
                           ),
                           width: 60,
                           height: 20,
-                          child: Center(child: Text('Featured', style: txtstyllcat,)))),
+                          child: Center(child: Text('Featured', style: text1,)))),
                   Positioned(
                       top: 40,
                       left: 0,
@@ -325,7 +344,7 @@ borderRadius: BorderRadius.circular(10)
                           ),
                           width: 75,
                           height: 20,
-                          child: Center(child: Text(off, style: txtstyllcat,)))),
+                          child: Center(child: Text(off, style: text1,)))),
                   Positioned(
                       top: 10,
                       right: 10,
@@ -353,7 +372,7 @@ borderRadius: BorderRadius.circular(10)
                           ),
                           width: 65,
                           height: 20,
-                          child: Center(child: Text(time +' minutes', style: txtstyllcat,)))),
+                          child: Center(child: Text(time +' minutes', style: text1,)))),
 
 
                 ],
@@ -363,7 +382,7 @@ borderRadius: BorderRadius.circular(10)
               padding: const EdgeInsets.symmetric(vertical: 10.0, horizontal: 5),
               child: Row(
                 children: [
-                  Expanded(child: Text(name, style: txtstyll,)),
+                  Expanded(child: Text(name, style: text3,)),
                   SizedBox(
                     width: 110,
                   ),
@@ -387,14 +406,14 @@ borderRadius: BorderRadius.circular(10)
               padding: const EdgeInsets.only(top: 10.0,left: 5),
               child: Row(
                 children: [
-                  Text('\$\$\$ ', style: txtstyllc,),
+                  Text('\$\$\$ ', style: text2,),
                   GradientIcon(
                       Icons.fiber_manual_record,
                       5,
                       LinearGradient(
                         colors: [appColor1, appColor2],
                       )),
-                  Text(categ, style: txtstyllc,),
+                  Text(categ, style: text2,),
 
 
 
@@ -403,6 +422,29 @@ borderRadius: BorderRadius.circular(10)
             ),
           ],
         ),
+      ),
+    );
+  }
+}
+
+class ButtonRound extends StatelessWidget {
+  final String text;
+  final bool loading;
+  final VoidCallback ontap;
+  const ButtonRound({Key? key, required this.text, required this.ontap, this.loading= false}) : super(key: key);
+
+  @override
+  Widget build(BuildContext context) {
+    return InkWell(
+      onTap: ontap,
+      child: Container(
+        width: MediaQuery.of(context).size.width,
+        height: 50,
+        decoration: BoxDecoration(
+            borderRadius: BorderRadius.circular(20),
+            gradient: LinearGradient(colors: [appColor1, appColor2])
+        ),
+        child: Center(child: loading? CircularProgressIndicator(strokeWidth: 3, color: Colors.white,):Text( text, style: TextStyle(fontSize: 25),)),
       ),
     );
   }

@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:shared_preferences/shared_preferences.dart';
 
 import '../../constants/contstants.dart';
 import '../../constants/reusable.dart';
@@ -14,19 +13,13 @@ class Category_donut extends StatefulWidget {
 }
 
 class _Category_donutState extends State<Category_donut> {
-  String name = 'aamir';
   @override
   void initState() {
     // TODO: implement initState
     super.initState();
-    SP();
   }
 
-  SP() async {
-    SharedPreferences sp = await SharedPreferences.getInstance();
-    name = sp.getString('username') ?? 'Syed Taimoor Shah';
-    setState(() {});
-  }
+
 
   @override
   Widget build(BuildContext context) {
@@ -66,8 +59,8 @@ class _Category_donutState extends State<Category_donut> {
                 ),
 
                 accountName: Text(
-                  name.toString(),
-                  style: txtstyll,
+                  'Taimoor',
+                  style: text3,
                 ),
                 accountEmail: null),
             ListTile(
@@ -77,7 +70,7 @@ class _Category_donutState extends State<Category_donut> {
               ),
               title: const Text(
                 'Profile',
-                style: sadaF,
+                style: textSimpleRobo,
               ),
               onTap: () {
                 Navigator.pushNamed(context, '/profile');
@@ -93,7 +86,7 @@ class _Category_donutState extends State<Category_donut> {
               ),
               title: Text(
                 'Orders',
-                style: sadaF,
+                style: textSimpleRobo,
               ),
             ),
             const Divider(
@@ -104,9 +97,9 @@ class _Category_donutState extends State<Category_donut> {
                 Icons.location_on,
                 color: appColor2,
               ),
-              title: Text(
+              title: const Text(
                 'Addresses',
-                style: sadaF,
+                style: textSimpleRobo,
               ),
               onTap: () {
                 Navigator.push(context, MaterialPageRoute(builder: (context)=> SearchMap()));
@@ -122,7 +115,7 @@ class _Category_donutState extends State<Category_donut> {
               ),
               title: Text(
                 'Rewards',
-                style: sadaF,
+                style: textSimpleRobo,
               ),
             ),
             Divider(
@@ -135,7 +128,7 @@ class _Category_donutState extends State<Category_donut> {
               ),
               title: Text(
                 'Help Center',
-                style: sadaF,
+                style: textSimpleRobo,
               ),
             ),
             const Divider(
@@ -144,7 +137,7 @@ class _Category_donutState extends State<Category_donut> {
             ListTile(
               title: Text(
                 'Settings',
-                style: sadaF,
+                style: textSimpleRobo,
               ),
               onTap: (){
                 //   Navigator.push(context, MaterialPageRoute(builder: (context)=> test()));
@@ -153,11 +146,10 @@ class _Category_donutState extends State<Category_donut> {
             ListTile(
               title: const Text(
                 'Log out',
-                style: sadaF,
+                style: textSimpleRobo,
               ),
               onTap: () async {
-                SharedPreferences sp = await SharedPreferences.getInstance();
-                sp.clear();
+
                 Navigator.pushReplacementNamed(context, '/signup');
               },
             ),
@@ -171,7 +163,7 @@ class _Category_donutState extends State<Category_donut> {
                 onTap: (){
                   Navigator.push(context, MaterialPageRoute(builder: (context)=> item_screen(image: 'images/donut.png',
                       text: 'Best burger in the town. Must try, Best burger in the town. Must try, Best burger in the town. Must try',
-                      name: 'Choco Donut', price: '249', time: '15 minutes')));
+                      name: 'Choco Donut', price: '249', time: '15 minutes', id: 1,)));
                 },
                 child: Category_Container(
                     name: 'Choco Donut',
@@ -188,7 +180,7 @@ class _Category_donutState extends State<Category_donut> {
                 onTap: (){
                   Navigator.push(context, MaterialPageRoute(builder: (context)=> item_screen(image: 'images/donut p.png',
                       text: 'Best burger in the town. Must try, Best burger in the town. Must try, Best burger in the town. Must try',
-                      name: 'Pink Choco Donut', price: '300', time: '15 minutes')));
+                      name: 'Pink Choco Donut', price: '300', time: '15 minutes', id: 1,)));
                 },
                 child: Category_Container(
                     name: 'Pink Donut',

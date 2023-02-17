@@ -128,7 +128,7 @@ final Completer<GoogleMapController> _controller = Completer();
                        gradient: LinearGradient(colors: [appColor1,appColor2]),
                        borderRadius: BorderRadius.circular(10)
                      ),
-                     child: Center(child: Text('Search',style: txtstyll,),),
+                     child: Center(child: Text('Search',style: text3,),),
                    ),
                  ),
                ],
